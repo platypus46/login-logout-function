@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crawling List</title>
+    <script>
+        function handleLogout() {
+            fetch('/api/logout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+            localStorage.removeItem('username'); 
+            alert(data.message);
+            window.location.href = '/login/'; 
+        });
+        }
+
+        function displayUsername() {
+            var username = localStorage.getItem('username');
+            if(username) {
+                document.getElementById('username').textContent = username;
+            }
+        }
+
+        window.onload = displayUsername;
+    </script>
+</head>
+<body>
+    <h1>Crawling List Page</h1>
+    <p>로그인된 아이디: <span id="username"></span></p>
+    <button onclick="handleLogout()">로그아웃</button>
+</body>
+</html>
